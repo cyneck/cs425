@@ -67,7 +67,7 @@ public class RenterController {
     }
 
     @RequestMapping("/addressForm")
-    public String addressForm(HttpSession session, Model model) {
+    public String addressForm(String addressId, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         // Check if user is authenticated
         if (user == null) {
@@ -75,11 +75,32 @@ public class RenterController {
             return "redirect:/login?error";
         }
         Address address = new Address();
-        address.setEmail(user.getEmail());
+        if (StringUtils.isNotBlank(addressId)) {
+            address = addressService.findById(addressId);
+        }
         model.addAttribute("address", address);
         model.addAttribute("user", user);
         // User is authenticated, show dashboard
         return "portal/renter/addressForm";
+    }
+
+    @GetMapping("/deleteAddress")
+    public String deleteAddress(String addressId, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        // Check if user is authenticated
+        if (user == null) {
+            // User is not authenticated, redirect to login page
+            return "redirect:/login?error";
+        }
+        Address address = new Address();
+        if (StringUtils.isNotBlank(addressId)) {
+            addressService.deleteById(addressId);
+        }
+        List<Address> addressList = addressService.findByEmail(user.getEmail());
+        model.addAttribute("user", user);
+        model.addAttribute("addressList", addressList);
+        // User is authenticated, show dashboard
+        return "portal/renter/address";
     }
 
     @GetMapping("/creditCard")
