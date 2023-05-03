@@ -5,13 +5,14 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
+
 public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     private String email;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String passwd;
     private String role;
 
@@ -26,19 +27,19 @@ public class User implements Serializable {
     }
 
     public String getFirstName() {
-        return firstname;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        this.firstname = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return lastname;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        this.lastname = lastName;
+        this.lastName = lastName;
     }
 
     public String getPassword() {
@@ -69,8 +70,8 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "email='" + email + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstName + '\'' +
+                ", lastname='" + lastName + '\'' +
                 ", passwd='" + passwd + '\'' +
                 ", role='" + role + '\'' +
                 ", addresses=" + addresses +

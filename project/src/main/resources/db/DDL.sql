@@ -16,7 +16,7 @@ create table Agent
    foreign key (email) references Users (email)
 		on delete cascade
   );
-  
+
 create table Renter
   (email varchar(100),
    age numeric(2,0) check (age > 18),
@@ -48,7 +48,7 @@ create table Preference
    foreign key (email) references Renter (email)
 		on delete cascade
   );
-  
+
 create table CreditCard
   (card_no varchar(16),
    email varchar(100),
@@ -60,11 +60,12 @@ create table CreditCard
 	 foreign key (address_id) references Address (address_id)
 		on delete set null
   );
-  
+
 create table Reward
-  (email varchar(100),
+  (reward_id varchar(64),
+   email varchar(100),
    point_count numeric(6,0) check (point_count > 0),
-   primary key (email),
+   primary key (reward_id),
    foreign key (email) references Renter (email)
 		on delete cascade
   );
@@ -73,14 +74,15 @@ create table RewardDetail
   (email varchar(100),
    detail_id varchar(100),
    operation varchar(30),
+   reward_id varchar(64),
    point numeric(6,0) check (point > 0),
    opt_date date,
-   primary key (email,detail_id),
-   foreign key (email) references Reward (email)
+   primary key (detail_id),
+   foreign key (reward_id) references Reward (reward_id)
 		on delete cascade
   );
-  
-create table Propery
+
+create table Property
   (property_id varchar(40),
    email varchar(100),
    property_type varchar(10) check (property_type in ('house', 'apartment','commercial')),
@@ -95,29 +97,29 @@ create table Propery
    foreign key (email) references Agent (email)
 		on delete set null
   );
-  
+
 create table House
   (property_id varchar(40),
    rooms_number numeric(1,0) check (rooms_number > 0 ),
    primary key (property_id),
-   foreign key (property_id) references Propery (property_id)
+   foreign key (property_id) references Property (property_id)
 		on delete cascade
   );
-  
+
 create table Apartment
   (property_id varchar(40),
    rooms_number numeric(1,0) check (rooms_number > 0 ),
    building_type varchar(10) not null,
    primary key (property_id),
-   foreign key (property_id) references Propery (property_id)
+   foreign key (property_id) references Property (property_id)
 		on delete cascade
   );
-  
+
 create table Commercial
   (property_id varchar(40),
    business_type varchar(20) not null,
    primary key (property_id),
-   foreign key (property_id) references Propery (property_id)
+   foreign key (property_id) references Property (property_id)
 		on delete cascade
   );
 
@@ -127,7 +129,7 @@ create table Neighborhood
    neighborhood_id varchar(20) not null,
    crime_rate numeric(6,4) check (crime_rate >= 0),
    primary key (property_id,neighborhood_id),
-   foreign key (property_id) references Propery (property_id)
+   foreign key (property_id) references Property (property_id)
 		on delete cascade
   );
 
@@ -139,7 +141,7 @@ create table Nearby
    description varchar(200),
    images varchar(100),
    primary key (property_id,nearby_id),
-   foreign key (property_id) references Propery (property_id)
+   foreign key (property_id) references Property (property_id)
 		on delete cascade
   );
 

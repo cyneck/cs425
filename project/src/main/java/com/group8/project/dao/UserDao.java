@@ -25,6 +25,12 @@ public class UserDao {
         return userList.isEmpty() ? null : userList.get(0);
     }
 
+    public User findByEmailAndPwd(String email,String passwd) {
+        String sql = "SELECT email, firstname, lastname, passwd, role FROM Users WHERE email = ? and passwd = ?";
+        List<User> userList = jdbcTemplate.query(sql, new Object[]{email,passwd}, new UserRowMapper());
+        return userList.isEmpty() ? null : userList.get(0);
+    }
+
     public List<User> findAll() {
         String sql = "SELECT email, firstname, lastname, passwd, role FROM Users";
         return jdbcTemplate.query(sql, new UserRowMapper());
