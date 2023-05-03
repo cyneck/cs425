@@ -14,11 +14,6 @@
                 <div class="card-body">
                     <h1 class="card-title text-center mb-4">Register</h1>
                     <form action="/signUpAgent" method="post" th:object="${user}">
-                        <div th:if="${#fields.hasErrors('email') || #fields.hasErrors('password')}"
-                             class="alert alert-danger">
-                            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-                            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-                        </div>
                         <input type="hidden" name="role" id="agent" value="agent">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First name" required>
@@ -42,12 +37,19 @@
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+                            <input type="text" class="form-control" id="email" th:field="*{email}"
+                                   placeholder="Email" required>
                             <label for="email">Email</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                            <input type="password" class="form-control" id="password"
+                                   th:field="*{password}" placeholder="Password" required>
                             <label for="password">Password</label>
+                        </div>
+                        <div th:if="${#fields.hasErrors('email') || #fields.hasErrors('password')}"
+                             class="alert alert-danger">
+                            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                         </div>
                         <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
                     </form>

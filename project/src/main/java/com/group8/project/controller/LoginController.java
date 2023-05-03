@@ -98,20 +98,21 @@ public class LoginController {
     }
 
     @GetMapping("signUpAgent")
-    public String signUpAgentPage(@ModelAttribute("user") User user, Model model) {
+    public String signUpAgentPage(Model model) {
+        model.addAttribute("user", new User());
         return "portal/signUpAgent";
     }
 
     @PostMapping("signUpAgent")
-    public String signUpAgent(@ModelAttribute("agent") AgentDto agentDto, Model model,
+    public String signUpAgent(@Valid @ModelAttribute("user") AgentDto agentDto, Model model,
                               BindingResult bindingResult,
                               HttpServletRequest request,
                               RedirectAttributes attributes) {
         if (StringUtils.isNotBlank(agentDto.getEmail()) || StringUtils.isNotBlank(agentDto.getPassword())) {
             Agent agent = agentService.findByEmail(agentDto.getEmail());
             if (agent != null) {
+                model.addAttribute("user", agentDto);
                 bindingResult.rejectValue("email", "error.user", "agent already exists!");
-                model.addAttribute("user", agent);
             } else {
                 User user = new User();
                 user.setEmail(agentDto.getEmail());
@@ -137,20 +138,22 @@ public class LoginController {
 
 
     @GetMapping("signUpRenter")
-    public String signUpRenterPage(@ModelAttribute("user") User user, Model model) {
+    public String signUpRenterPage(Model model) {
+        model.addAttribute("user", new User());
         return "portal/signUpRenter";
     }
 
     @PostMapping("signUpRenter")
-    public String signUpRenter(@ModelAttribute("renter") RenterDto renter, Model model,
+    public String signUpRenter(@Valid @ModelAttribute("user") RenterDto renter, Model model,
                                BindingResult bindingResult,
                                HttpServletRequest request,
                                RedirectAttributes attributes) {
         if (StringUtils.isNotBlank(renter.getEmail()) || StringUtils.isNotBlank(renter.getPassword())) {
             Renter renterTmp = renterService.getByEmail(renter.getEmail());
             if (renterTmp != null) {
+                model.addAttribute("user", renter);
                 bindingResult.rejectValue("email", "error.user", "renter already exists!");
-                model.addAttribute("user", renterTmp);
+                return "portal/signUpRenter";
             } else {
                 Renter newRenter = new Renter();
                 User user = new User();
