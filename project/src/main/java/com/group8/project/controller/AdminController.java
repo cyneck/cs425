@@ -1,10 +1,15 @@
 package com.group8.project.controller;
 
 import com.group8.project.domain.User;
+import com.group8.project.service.AgentService;
+import com.group8.project.service.RenterService;
+import com.group8.project.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,6 +24,15 @@ public class AdminController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RenterService renterService;
+
+    @Autowired
+    private AgentService agentService;
 
     /**
      * Fetch User List
@@ -45,4 +59,5 @@ public class AdminController {
         map.addAttribute("users", userList);
         return "admin/users";
     }
+
 }

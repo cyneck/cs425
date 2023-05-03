@@ -3,25 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>User management(Only for administrator use)</title>
+    <!-- 引入Bootstrap的CSS文件 -->
+    <link rel="stylesheet"
+          href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link"  href="dashboard">User list</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title text-center mb-4">User list</h1>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>E-mail</th>
+                                    <th>Firstname</th>
+                                    <th>Lastname</th>
+                                    <th>Password</th>
+                                    <th>Role</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.email}"></td>
+                                    <td th:text="${user.firstName}"></td>
+                                    <td th:text="${user.lastName}"></td>
+                                    <td th:text="${user.password}"></td>
+                                    <td th:text="${user.role}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<!-- 引入Bootstrap的JavaScript文件 -->
+<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
 
-<table>
-    <thead>
-        <th>E-mail</th>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Password</th>
-        <th>Role</th>
-    </thead>
-    <tbody>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.firstname}"></td>
-            <td th:text="${user.lastname}"></td>
-            <td th:text="${user.passwd}"></td>
-        </tr>
-    </tbody>
-</table>
 </body>
 </html>

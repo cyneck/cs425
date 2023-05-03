@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Renter Dashboard</title>
+    <title>Credit Card</title>
     <!-- 引入Bootstrap的CSS文件 -->
     <link rel="stylesheet"
           href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
@@ -10,7 +10,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Renter Dashboard</a>
+        <a class="navbar-brand" href="#">Credit Card</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -74,30 +74,39 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-body">
-                            <h1 class="card-title text-center mb-4">User Form</h1>
-                            <form action="/renter/updateUser" th:object="${user}">
-                                <div class="mb-3">
-                                    <label for="firstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="lastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control"  id="email" th:field="*{email}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" th:field="*{password}" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </form>
+                            <h1 class="card-title text-center mb-4">User Profile</h1>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>John</td>
+                                    <td>john@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Jane</td>
+                                    <td>jane@example.com</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Bob</td>
+                                    <td>bob@example.com</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </main>
     </div>
 </div>
