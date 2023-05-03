@@ -79,7 +79,7 @@ create table RewardDetail
 		on delete cascade
   );
 
-create table Propery
+create table Property
   (property_id varchar(40),
    email varchar(100),
    property_type varchar(10) check (property_type in ('house', 'apartment','commercial')),
