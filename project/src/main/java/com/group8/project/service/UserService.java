@@ -1,5 +1,6 @@
 package com.group8.project.service;
 
+import com.group8.project.dao.RenterDao;
 import com.group8.project.dao.UserDao;
 import com.group8.project.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,10 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userDao.findByEmail(email);
+    }
+
+    public User findByEmailAndPwd(String email, String pwd) {
+        return userDao.findByEmailAndPwd(email, pwd);
     }
 
     public void save(User user) {

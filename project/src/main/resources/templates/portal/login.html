@@ -1,40 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <!-- 引入Bootstrap的CSS文件 -->
-  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <!-- 引入Bootstrap的CSS文件 -->
+    <link rel="stylesheet"
+          href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h1 class="card-title text-center mb-4">Login</h1>
-          <form action="/login" method="post" th:object="${user}">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="email" th:field="*{email}" placeholder="Email" required>
-              <label for="email">Email</label>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Login</h1>
+                    <form action="/login" method="post" th:object="${user}">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="role" id="renter"
+                                   value="renter">
+                            <label class="form-check-label" for="renter">renter</label>
+                        </div>
+                        <div class="form-check form-check-inline mb-5">
+                            <input class="form-check-input" type="radio" name="role" id="agent"
+                                   value="agent">
+                            <label class="form-check-label" for="agent">agent</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="email" th:field="*{email}"
+                                   placeholder="Email" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password"
+                                   th:field="*{password}" placeholder="Password" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <div th:if="${#fields.hasErrors('email') || #fields.hasErrors('password')}"
+                             class="alert alert-danger">
+                            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                        </div>
+                        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        Don't have an account?
+                        <p><a href="/signUpRenter" class="text-primary">Sign up as renter</a></p>
+                        <p><a href="/signUpAgent" class="text-primary">Sign up as agent</a></p>
+                    </div>
+                </div>
             </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Password" required>
-              <label for="password">Password</label>
-            </div>
-            <div th:if="${#fields.hasErrors('email') || #fields.hasErrors('password')}" class="alert alert-danger">
-              <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-              <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-            </div>
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
-          </form>
-          <div class="mt-3 text-center">
-            Don't have an account? <a href="/signUp" class="text-primary">Sign up</a>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <!-- 引入Bootstrap的JavaScript文件 -->
 <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>

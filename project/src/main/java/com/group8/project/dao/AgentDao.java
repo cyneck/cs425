@@ -3,7 +3,10 @@ package com.group8.project.dao;
 import com.group8.project.domain.Agent;
 import com.group8.project.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -27,37 +30,36 @@ public class AgentDao {
         return jdbcTemplate.query(sql, new AgentWithUserRowMapper());
     }
 
+    public Agent findByEmailWithoutJoin(String email) {
+        String sql = "SELECT * FROM Agent WHERE Agent.email=?";
+        List<Agent> agentList = jdbcTemplate.query(sql, new Object[]{email}, new AgentRowMapper());
+        return agentList.isEmpty() ? null : agentList.get(0);
+    }
+
     public Agent findByEmail(String email) {
         String sql = "SELECT * FROM Agent LEFT JOIN Users ON Agent.email = Users.email WHERE Agent.email=?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{email}, new AgentWithUserRowMapper());
+        List<Agent> agentList = jdbcTemplate.query(sql, new Object[]{email}, new AgentWithUserRowMapper());
+        return agentList.isEmpty() ? null : agentList.get(0);
     }
 
     public List<Agent> findByEstateAgency(String estateAgency) {
         String sql = "SELECT * FROM Agent LEFT JOIN Users ON Agent.email = Users.email WHERE estate_agency=?";
-        return jdbcTemplate.query(sql, new Object[]{estateAgency}, new AgentWithUserRowMapper());
+        List<Agent> agentList = jdbcTemplate.query(sql, new Object[]{estateAgency}, new AgentWithUserRowMapper());
+        return agentList.isEmpty() ? null : agentList;
     }
 
     public void save(Agent agent) {
-        String sql = "INSERT INTO Users(email, firstname, lastname, passwd, role) VALUES (?, ?, ?, ?, 'agent')";
-        jdbcTemplate.update(sql, agent.getUser().getEmail(), agent.getUser().getFirstName(), agent.getUser().getLastName(), agent.getUser().getPassword());
-
-        sql = "INSERT INTO Agent(email, estate_agency, job_title, phone) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Agent(email, estate_agency, job_title, phone) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, agent.getUser().getEmail(), agent.getEstateAgency(), agent.getJobTitle(), agent.getPhone());
     }
 
     public void update(Agent agent) {
-        String sql = "UPDATE Users SET firstname=?, lastname=?, passwd=? WHERE email=?";
-        jdbcTemplate.update(sql, agent.getUser().getFirstName(), agent.getUser().getLastName(), agent.getUser().getPassword(), agent.getUser().getEmail());
-
-        sql = "UPDATE Agent SET estate_agency=?, job_title=?, phone=? WHERE email=?";
+        String sql = "UPDATE Agent SET estate_agency=?, job_title=?, phone=? WHERE email=?";
         jdbcTemplate.update(sql, agent.getEstateAgency(), agent.getJobTitle(), agent.getPhone(), agent.getUser().getEmail());
     }
 
     public void deleteByEmail(String email) {
         String sql = "DELETE FROM Agent WHERE email=?";
-        jdbcTemplate.update(sql, email);
-
-        sql = "DELETE FROM Users WHERE email=?";
         jdbcTemplate.update(sql, email);
     }
 
@@ -75,10 +77,22 @@ public class AgentDao {
             user.setFirstName(rs.getString("firstname"));
             user.setLastName(rs.getString("lastname"));
             user.setPassword(rs.getString("passwd"));
-            user.setRole(rs.getString("role").toLowerCase());
 
             agent.setUser(user);
 
+            return agent;
+        }
+    }
+
+    private static class AgentRowMapper implements RowMapper<Agent> {
+
+        @Override
+        public Agent mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Agent agent = new Agent();
+            agent.setEstateAgency(rs.getString("estate_agency"));
+            agent.setJobTitle(rs.getString("job_title"));
+            agent.setPhone(rs.getString("phone"));
+            agent.setEmail(rs.getString("email"));
             return agent;
         }
     }

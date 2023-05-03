@@ -21,12 +21,12 @@ public class RenterDao {
     }
 
     public List<Renter> findAll() {
-        String sql = "SELECT r.email, r.age, r.sex, r.job, r.phone, u.firstname, u.lastname, u.passwd, u.role FROM Renter r INNER JOIN Users u ON r.email=u.email";
+        String sql = "SELECT r.email, r.age, r.sex, r.job, r.phone, u.firstname, u.lastname, u.passwd FROM Renter r INNER JOIN Users u ON r.email=u.email";
         return jdbcTemplate.query(sql, new RenterWithUserRowMapper());
     }
 
     public Renter findByEmail(String email) {
-        String sql = "SELECT r.email, r.age, r.sex, r.job, r.phone, u.firstname, u.lastname, u.passwd, u.role FROM Renter r INNER JOIN Users u ON r.email=u.email WHERE r.email=?";
+        String sql = "SELECT r.email, r.age, r.sex, r.job, r.phone, u.firstname, u.lastname, u.passwd FROM Renter r INNER JOIN Users u ON r.email=u.email WHERE r.email=?";
         List<Renter> renters = jdbcTemplate.query(sql, new RenterWithUserRowMapper(), email);
         return renters.isEmpty() ? null : renters.get(0);
     }
@@ -60,7 +60,6 @@ public class RenterDao {
             user.setFirstName(rs.getString("firstname"));
             user.setLastName(rs.getString("lastname"));
             user.setPassword(rs.getString("passwd"));
-            user.setRole(rs.getString("role"));
 
             renter.setUser(user);
 

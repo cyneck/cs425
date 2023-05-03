@@ -1,7 +1,15 @@
 package com.group8.project.controller;
 
+import com.group8.project.dao.RenterDao;
 import com.group8.project.dao.UserDao;
+import com.group8.project.domain.Agent;
+import com.group8.project.domain.Renter;
 import com.group8.project.domain.User;
+import com.group8.project.domain.dto.AgentDto;
+import com.group8.project.domain.dto.RenterDto;
+import com.group8.project.service.AgentService;
+import com.group8.project.service.RenterService;
+import com.group8.project.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -28,10 +37,13 @@ import java.util.List;
 public class LoginController {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private UserService userService;
 
     @Autowired
-    private UserDao userDao;
+    private RenterService renterService;
+
+    @Autowired
+    private AgentService agentService;
 
     @GetMapping("login")
     public String showLoginForm(Model model) {
@@ -40,20 +52,41 @@ public class LoginController {
     }
 
     @PostMapping("login")
-    public String processLoginForm(@Valid @ModelAttribute("user") User user, Model model, BindingResult bindingResult, HttpServletRequest request) {
+    public String processLoginForm(@Valid @ModelAttribute("user") User user, Model model,
+                                   BindingResult bindingResult,
+                                   HttpServletRequest request,
+                                   RedirectAttributes attributes) {
         String email = user.getEmail();
         String password = user.getPassword();
         String sql = "SELECT * FROM Users WHERE email = ? AND passwd = ?";
-        User inUser = userDao.findByEmailAndPwd(email, password);
+        User inUser = userService.findByEmailAndPwd(email, password);
         if (inUser != null) {
             // If user validation passed, save the user info into session
             HttpSession session = request.getSession();
-            session.setAttribute("user", inUser);
-            model.addAttribute("user", inUser);
-            if (inUser.equals("agent")) {
-                return "portal/agent/dashboard";
+            if (user.getRole().equals("agent")) {
+                Agent agent = agentService.findByEmail(inUser.getEmail());
+                if (null == agent) {
+                    model.addAttribute("user", user);
+                    // If user validation failed, return to the login page
+                    bindingResult.rejectValue("email", "error.user", "Invalid agent email or password.");
+                    return "portal/login";
+                }
+                agent.setUser(inUser);
+                session.setAttribute("user", inUser);
+                attributes.addFlashAttribute("user", inUser);
+                return "redirect:/agent/dashboard";
             } else {
-                return "portal/renter/dashboard";
+                Renter renter = renterService.getByEmail(inUser.getEmail());
+                if (null == renter) {
+                    model.addAttribute("user", user);
+                    // If user validation failed, return to the login page
+                    bindingResult.rejectValue("email", "error.user", "Invalid renter email or password.");
+                    return "portal/login";
+                }
+                renter.setUser(inUser);
+                session.setAttribute("user", inUser);
+                attributes.addFlashAttribute("user", inUser);
+                return "redirect:/renter/dashboard";
             }
 
         } else {
@@ -64,37 +97,83 @@ public class LoginController {
         }
     }
 
-    @GetMapping("signUp")
-    public String signUpPage() {
-        return "portal/signUp";
+    @GetMapping("signUpAgent")
+    public String signUpAgentPage(@ModelAttribute("user") User user, Model model) {
+        return "portal/signUpAgent";
     }
 
-    @PostMapping("signUp")
-    public String signUp(@ModelAttribute("user") User user, Model model, BindingResult bindingResult, HttpServletRequest request) {
-        if (StringUtils.isNotBlank(user.getEmail()) ||
-                StringUtils.isNotBlank(user.getPassword())) {
-            userDao.save(user);
-            User inUser = userDao.findByEmail(user.getEmail());
-            if (inUser != null) {
-                // If user validation passed, save the user info into session
-                HttpSession session = request.getSession();
-                session.setAttribute("user", inUser);
-                model.addAttribute("user", inUser);
-                if (inUser.getRole().equals("agent")) {
-                    return "portal/agent/dashboard";
-                } else {
-                    return "portal/renter/dashboard";
-                }
-
+    @PostMapping("signUpAgent")
+    public String signUpAgent(@ModelAttribute("agent") AgentDto agentDto, Model model,
+                              BindingResult bindingResult,
+                              HttpServletRequest request,
+                              RedirectAttributes attributes) {
+        if (StringUtils.isNotBlank(agentDto.getEmail()) || StringUtils.isNotBlank(agentDto.getPassword())) {
+            Agent agent = agentService.findByEmail(agentDto.getEmail());
+            if (agent != null) {
+                bindingResult.rejectValue("email", "error.user", "agent already exists!");
+                model.addAttribute("user", agent);
             } else {
-                model.addAttribute("user", user);
-                // If user validation failed, return to the login page
-                bindingResult.rejectValue("email", "error.user", "Invalid email or password.");
-                return "portal/login";
+                User user = new User();
+                user.setEmail(agentDto.getEmail());
+                user.setFirstName(agentDto.getFirstName());
+                user.setLastName(agentDto.getLastName());
+                user.setPassword(agentDto.getPassword());
+
+                Agent newAgent = new Agent();
+                newAgent.setUser(user);
+                newAgent.setEmail(user.getEmail());
+                newAgent.setPhone(agentDto.getPhone());
+                newAgent.setEstateAgency(agentDto.getEstateAgency());
+                newAgent.setJobTitle(agentDto.getJobTitle());
+                agentService.save(newAgent);
+                HttpSession session = request.getSession();
+                session.setAttribute("user", newAgent);
+                attributes.addFlashAttribute("user", newAgent);
+                return "redirect:/agent/dashboard";
             }
         }
-        return "portal/signUp";
+        return "portal/signUpAgent";
     }
+
+
+    @GetMapping("signUpRenter")
+    public String signUpRenterPage(@ModelAttribute("user") User user, Model model) {
+        return "portal/signUpRenter";
+    }
+
+    @PostMapping("signUpRenter")
+    public String signUpRenter(@ModelAttribute("renter") RenterDto renter, Model model,
+                               BindingResult bindingResult,
+                               HttpServletRequest request,
+                               RedirectAttributes attributes) {
+        if (StringUtils.isNotBlank(renter.getEmail()) || StringUtils.isNotBlank(renter.getPassword())) {
+            Renter renterTmp = renterService.getByEmail(renter.getEmail());
+            if (renterTmp != null) {
+                bindingResult.rejectValue("email", "error.user", "renter already exists!");
+                model.addAttribute("user", renterTmp);
+            } else {
+                Renter newRenter = new Renter();
+                User user = new User();
+                user.setEmail(renter.getEmail());
+                user.setFirstName(renter.getFirstName());
+                user.setLastName(renter.getLastName());
+                user.setPassword(renter.getPassword());
+                newRenter.setUser(user);
+                newRenter.setAge(renter.getAge());
+                newRenter.setJob(renter.getJob());
+                newRenter.setPhone(renter.getPhone());
+                newRenter.setSex(renter.getSex());
+                newRenter.setEmail(renter.getEmail());
+                renterService.save(newRenter);
+                HttpSession session = request.getSession();
+                session.setAttribute("user", newRenter);
+                attributes.addFlashAttribute("user", newRenter);
+                return "redirect:/renter/dashboard";
+            }
+        }
+        return "portal/signUpRenter";
+    }
+
 
     @GetMapping("logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {

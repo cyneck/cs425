@@ -14,6 +14,7 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String passwd;
+
     private String role;
 
     private List<Address> addresses;
@@ -73,7 +74,6 @@ public class User implements Serializable {
                 ", firstname='" + firstName + '\'' +
                 ", lastname='" + lastName + '\'' +
                 ", passwd='" + passwd + '\'' +
-                ", role='" + role + '\'' +
                 ", addresses=" + addresses +
                 '}';
     }

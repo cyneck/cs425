@@ -20,31 +20,31 @@ public class UserDao {
     }
 
     public User findByEmail(String email) {
-        String sql = "SELECT email, firstname, lastname, passwd, role FROM Users WHERE email = ?";
+        String sql = "SELECT email, firstname, lastname, passwd FROM Users WHERE email = ?";
         List<User> userList = jdbcTemplate.query(sql, new Object[]{email}, new UserRowMapper());
         return userList.isEmpty() ? null : userList.get(0);
     }
 
     public User findByEmailAndPwd(String email,String passwd) {
-        String sql = "SELECT email, firstname, lastname, passwd, role FROM Users WHERE email = ? and passwd = ?";
+        String sql = "SELECT email, firstname, lastname, passwd FROM Users WHERE email = ? and passwd = ?";
         List<User> userList = jdbcTemplate.query(sql, new Object[]{email,passwd}, new UserRowMapper());
         return userList.isEmpty() ? null : userList.get(0);
     }
 
     public List<User> findAll() {
-        String sql = "SELECT email, firstname, lastname, passwd, role FROM Users";
+        String sql = "SELECT email, firstname, lastname, passwd FROM Users";
         return jdbcTemplate.query(sql, new UserRowMapper());
     }
 
 
     public void save(User user) {
-        String sql = "INSERT INTO Users (email, firstname, lastname, passwd, role) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword(), user.getRole());
+        String sql = "INSERT INTO Users (email, firstname, lastname, passwd) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
     }
 
     public void update(User user) {
-        String sql = "UPDATE Users SET firstname = ?, lastname = ?, passwd = ?, role = ? WHERE email = ?";
-        jdbcTemplate.update(sql, user.getFirstName(), user.getLastName(), user.getPassword(), user.getRole(), user.getEmail());
+        String sql = "UPDATE Users SET firstname = ?, lastname = ?, passwd = ? WHERE email = ?";
+        jdbcTemplate.update(sql, user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail());
     }
 
     public void deleteByEmail(String email) {
@@ -60,7 +60,6 @@ public class UserDao {
             user.setFirstName(rs.getString("firstname"));
             user.setLastName(rs.getString("lastname"));
             user.setPassword(rs.getString("passwd"));
-            user.setRole(rs.getString("role"));
             return user;
         }
     }

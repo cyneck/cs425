@@ -13,15 +13,13 @@
             <div class="card">
                 <div class="card-body">
                     <h1 class="card-title text-center mb-4">Register</h1>
-                    <form action="signUp" method="post">
-                        <div class="form-check form-check-inline mb-5">
-                            <input class="form-check-input" type="radio" name="role" id="agent" value="agent">
-                            <label class="form-check-label" for="agent">agent</label>
+                    <form action="/signUpAgent" method="post" th:object="${user}">
+                        <div th:if="${#fields.hasErrors('email') || #fields.hasErrors('password')}"
+                             class="alert alert-danger">
+                            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="role" id="renter" value="renter">
-                            <label class="form-check-label" for="renter">renter</label>
-                        </div>
+                        <input type="hidden" name="role" id="agent" value="agent">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First name" required>
                             <label for="firstName">First name</label>
@@ -29,6 +27,18 @@
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last name" required>
                             <label for="lastName">Last name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="estateAgency" id="estateAgency" placeholder="Estate agency" required>
+                            <label for="estateAgency">Estate agency</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="jobTitle" id="jobTitle" placeholder="Job title" required>
+                            <label for="jobTitle">Job title</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" required>
+                            <label for="phone">Phone</label>
                         </div>
 
                         <div class="form-floating mb-3">
@@ -46,9 +56,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <img src="https://picsum.photos/800/600" class="img-fluid">
         </div>
     </div>
 </div>

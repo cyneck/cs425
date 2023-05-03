@@ -3,7 +3,6 @@ create table Users
 	 firstname	varchar(20)  not null,
 	 lastname	varchar(20) not null,
 	 passwd varchar(20)  not null,
-	 role varchar(10) check (role in ('agent', 'renter')),
 	 primary key (email)
 	);
 

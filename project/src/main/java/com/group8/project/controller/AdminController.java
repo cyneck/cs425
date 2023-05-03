@@ -39,7 +39,6 @@ public class AdminController {
                 user.setFirstName(rs.getString("firstname"));
                 user.setLastName(rs.getString("lastname"));
                 user.setPassword(rs.getString("passwd"));
-                user.setRole(rs.getString("role"));
                 return user;
             }
         });
