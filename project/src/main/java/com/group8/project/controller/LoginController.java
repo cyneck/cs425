@@ -53,7 +53,7 @@ public class LoginController {
             if (inUser.equals("agent")) {
                 return "portal/agent/dashboard";
             } else {
-                return "portal/renter/dashboard1";
+                return "portal/renter/dashboard";
             }
 
         } else {
@@ -83,7 +83,7 @@ public class LoginController {
                 if (inUser.getRole().equals("agent")) {
                     return "portal/agent/dashboard";
                 } else {
-                    return "portal/renter/dashboard1";
+                    return "portal/renter/dashboard";
                 }
 
             } else {
