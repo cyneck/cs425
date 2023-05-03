@@ -99,7 +99,7 @@ create table House
   (property_id varchar(40),
    rooms_number numeric(1,0) check (rooms_number > 0 ),
    primary key (property_id),
-   foreign key (property_id) references Propery (property_id)
+   foreign key (property_id) references Property (property_id)
 		on delete cascade
   );
 
@@ -108,7 +108,7 @@ create table Apartment
    rooms_number numeric(1,0) check (rooms_number > 0 ),
    building_type varchar(10) not null,
    primary key (property_id),
-   foreign key (property_id) references Propery (property_id)
+   foreign key (property_id) references Property (property_id)
 		on delete cascade
   );
 
@@ -116,7 +116,7 @@ create table Commercial
   (property_id varchar(40),
    business_type varchar(20) not null,
    primary key (property_id),
-   foreign key (property_id) references Propery (property_id)
+   foreign key (property_id) references Property (property_id)
 		on delete cascade
   );
 
@@ -126,7 +126,7 @@ create table Neighborhood
    neighborhood_id varchar(20) not null,
    crime_rate numeric(6,4) check (crime_rate >= 0),
    primary key (property_id,neighborhood_id),
-   foreign key (property_id) references Propery (property_id)
+   foreign key (property_id) references Property (property_id)
 		on delete cascade
   );
 
@@ -138,7 +138,7 @@ create table Nearby
    description varchar(200),
    images varchar(100),
    primary key (property_id,nearby_id),
-   foreign key (property_id) references Propery (property_id)
+   foreign key (property_id) references Property (property_id)
 		on delete cascade
   );
 
