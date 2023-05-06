@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Address</title>
+    <title>Credit Card</title>
     <!-- 引入Bootstrap的CSS文件 -->
     <link rel="stylesheet"
           href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
@@ -10,7 +10,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Address</a>
+        <a class="navbar-brand" href="#">Credit Card</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                       data-bs-toggle="dropdown" aria-expanded="false" >
                         <img src="https://picsum.photos/id/237/32/32" alt="User Avatar"
                              class="rounded-circle me-2" th:text="${user.firstName}">
                     </a>
@@ -43,7 +43,7 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="dashboard">Profile</a>
+                        <a class="nav-link"  href="dashboard">Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="address">Address</a>
@@ -74,39 +74,36 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-body">
-                            <h1 class="card-title text-center mb-4">User address</h1>
-                            <div class="mb-3">
-                                <a href="addressForm" class="btn btn-primary">Add</a>
-                            </div>
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>city</th>
-                                    <th>state</th>
-                                    <th>address</th>
-                                    <th>action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="address : ${addressList}">
-                                    <td th:text="${address.addressId}"></td>
-                                    <td th:text="${address.city}"></td>
-                                    <td th:text="${address.state}"></td>
-                                    <td th:text="${address.address}"></td>
-                                    <td>
-                                        <a th:href="@{/renter/addressForm?addressId={addressId}(addressId=${address.addressId})}" class="btn btn-primary">view</a>
-                                        <a th:href="@{/renter/deleteAddress?addressId={addressId}(addressId=${address.addressId})}" class="btn btn-danger">delete</a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                            <h1 class="card-title text-center mb-4">User Credit Card</h1>
+                            <form action="/renter/creditCard" method="post" th:object="${creditCardDto}">
+                                <div class="mb-3">
+                                    <label for="cardNo" class="form-label">cardNo</label>
+                                    <input type="text" class="form-control" id="cardNo" th:field="*{cardNo}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">email</label>
+                                    <input type="text" class="form-control"  id="email" th:field="${user.email}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bank" class="form-label">bank</label>
+                                    <input type="text" class="form-control" id="bank" th:field="*{bank}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bank" class="form-label">address</label>
+                                    <select class="form-control" id="addressId" name="addressId">
+                                        <option th:value="null">please chose</option>
+                                        <option th:each="option : ${addressList}"
+                                                th:value="${option.addressId}"
+                                                th:selected="${addressId == option.addressId}"
+                                                th:text="${option.address}"></option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </main>
     </div>
 </div>

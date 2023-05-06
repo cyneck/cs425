@@ -2,15 +2,29 @@ package com.group8.project.domain;
 
 import java.io.Serializable;
 
+
 public class CreditCard implements Serializable {
-
+    private static final long serialVersionUID = -71926779120315354L;
+    
     private String cardNo;
+    
+    private String email;
+    
+    private String addressId;
 
-    private Renter renter;
-
-    private Address address;
-
+    private String address;
+    
     private String bank;
+
+    public CreditCard() {
+    }
+
+    public CreditCard(String cardNo, String email, String addressId, String bank) {
+        this.cardNo = cardNo;
+        this.email = email;
+        this.addressId = addressId;
+        this.bank = bank;
+    }
 
     public String getCardNo() {
         return cardNo;
@@ -20,19 +34,27 @@ public class CreditCard implements Serializable {
         this.cardNo = cardNo;
     }
 
-    public Renter getRenter() {
-        return renter;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRenter(Renter renter) {
-        this.renter = renter;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Address getAddress() {
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
+    }
+
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -43,4 +65,6 @@ public class CreditCard implements Serializable {
     public void setBank(String bank) {
         this.bank = bank;
     }
+
 }
+

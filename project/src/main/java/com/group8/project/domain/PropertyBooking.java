@@ -1,5 +1,7 @@
 package com.group8.project.domain;
 
+import com.group8.project.domain.dto.CreditCardDto;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -9,12 +11,12 @@ public class PropertyBooking implements Serializable {
     private LocalDate bookingDate;
     private String status;
     private Renter renter;
-    private CreditCard creditCard;
+    private CreditCardDto creditCard;
 
     public PropertyBooking() {
     }
 
-    public PropertyBooking(String propertyId, LocalDate bookingDate, String status, Renter renter, CreditCard creditCard) {
+    public PropertyBooking(String propertyId, LocalDate bookingDate, String status, Renter renter, CreditCardDto creditCard) {
         this.propertyId = propertyId;
         this.bookingDate = bookingDate;
         this.status = status;
@@ -54,11 +56,11 @@ public class PropertyBooking implements Serializable {
         this.renter = renter;
     }
 
-    public CreditCard getCreditCard() {
+    public CreditCardDto getCreditCard() {
         return creditCard;
     }
 
-    public void setCreditCard(CreditCard creditCard) {
+    public void setCreditCard(CreditCardDto creditCard) {
         this.creditCard = creditCard;
     }
 }
