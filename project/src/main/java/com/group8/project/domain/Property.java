@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 public class Property implements Serializable {
     private String propertyId;
+    private String email;
     private Agent agent;
     private String propertyType;
     private String description;
@@ -37,6 +38,14 @@ public class Property implements Serializable {
 
     public void setPropertyId(String propertyId) {
         this.propertyId = propertyId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Agent getAgent() {

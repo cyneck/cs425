@@ -7,6 +7,7 @@ import com.group8.project.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.util.List;
 
 @Service
@@ -45,7 +46,11 @@ public class AgentService {
         }
     }
 
+    @Transient
     public void update(Agent agent) {
+        if (null != agent.getUser()) {
+            userDao.update(agent.getUser());
+        }
         agentDao.update(agent);
     }
 

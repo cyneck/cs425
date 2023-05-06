@@ -1,6 +1,7 @@
 package com.group8.project.controller;
 
 import com.group8.project.domain.Address;
+import com.group8.project.domain.Agent;
 import com.group8.project.domain.Renter;
 import com.group8.project.domain.User;
 import com.group8.project.service.AddressService;
@@ -24,6 +25,9 @@ public class DashboardController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private AgentService agentService;
+
 
     @GetMapping("/agent/dashboard")
     public String showAgentDashboard(HttpSession session, Model model) {
@@ -33,8 +37,9 @@ public class DashboardController {
             // User is not authenticated, redirect to login page
             return "redirect:/login?error";
         }
-
-        model.addAttribute("user", user);
+        Agent agent = agentService.findByEmail(user.getEmail());
+        model.addAttribute("user", agent.getUser());
+        model.addAttribute("agent", agent);
         // User is authenticated, show dashboard
         return "portal/agent/dashboard";
     }
@@ -51,7 +56,6 @@ public class DashboardController {
         // User is authenticated, show dashboard
         return "portal/renter/dashboard";
     }
-
 
 
 }

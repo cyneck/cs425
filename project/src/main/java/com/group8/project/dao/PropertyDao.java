@@ -128,7 +128,7 @@ public class PropertyDao {
             property.setAvailability(rs.getInt("availability"));
             property.setRentalPrice(rs.getBigDecimal("rental_price"));
             property.setSquareFootage(rs.getBigDecimal("square_footage"));
-
+            property.setEmail(rs.getString("email"));
             property.setAgent(agentDao.findByEmail(rs.getString("email")));
 
             return property;

@@ -89,13 +89,13 @@
                                     <input type="text" class="form-control" id="bank" th:field="*{bank}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="bank" class="form-label">address</label>
+                                    <label for="addressId" class="form-label">address</label>
                                     <select class="form-control" id="addressId" name="addressId">
                                         <option th:value="null">please chose</option>
                                         <option th:each="option : ${addressList}"
                                                 th:value="${option.addressId}"
                                                 th:selected="${addressId == option.addressId}"
-                                                th:text="${option.address}"></option>
+                                                th:text="${option.address}" required></option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>

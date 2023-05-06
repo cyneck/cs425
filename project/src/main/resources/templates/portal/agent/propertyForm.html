@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Agent Profile</title>
+    <title>Property</title>
     <!-- 引入Bootstrap的CSS文件 -->
     <link rel="stylesheet"
           href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
@@ -10,7 +10,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Agent Profile</a>
+        <a class="navbar-brand" href="#">Property</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -46,45 +46,59 @@
                         <a class="nav-link"  href="dashboard">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="property">Property</a>
+                        <a class="nav-link" href="dashboard">Reference</a>
                     </li>
                 </ul>
             </div>
         </nav>
+
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-body">
-                            <h1 class="card-title text-center mb-4">User Form</h1>
-                            <form action="/agent/updateUser" th:object="${agent}">
+                            <h1 class="card-title text-center mb-4"> Property</h1>
+                            <form action="/agent/property" method="post" th:object="${property}">
                                 <div class="mb-3">
-                                    <label for="firstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" th:field="*{user.firstName}" required>
+                                    <input type="hidden" class="form-control" id="propertyId" th:field="*{propertyId}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="lastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" th:field="*{user.lastName}" required>
+                                    <label for="propertyType" class="form-label">Property Type</label>
+                                    <select class="form-control" id="propertyType" name="propertyType">
+                                        <option th:value="null">please chose</option>
+                                        <option th:each="option : ${propertyTypeList}"
+                                                th:value="${option.name}"
+                                                th:selected="${propertyType == option.name}"
+                                                th:text="${option.name}" required></option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="estateAgency" class="form-label">Estate agency</label>
-                                    <input type="text" class="form-control" id="estateAgency" th:field="*{estateAgency}" required>
+                                    <label for="description" class="form-label">Description</label>
+                                    <input type="text" class="form-control" id="description" th:field="*{description}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="jobTitle" class="form-label">Job title</label>
-                                    <input type="text" class="form-control" id="jobTitle" th:field="*{jobTitle}" required>
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" class="form-control" id="city" th:field="*{city}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="phone" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" id="phone" th:field="*{phone}" required>
+                                    <label for="state" class="form-label">State</label>
+                                    <input type="text" class="form-control" id="state" th:field="*{state}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control"  id="email" th:field="*{user.email}" required>
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" class="form-control" id="address" th:field="*{address}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" th:field="*{user.password}" required>
+                                    <label for="availability" class="form-label">Availability</label>
+                                    <input type="text" class="form-control" id="availability" th:field="*{availability}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="rentalPrice" class="form-label">Rental Price</label>
+                                    <input type="text" class="form-control" id="rentalPrice" th:field="*{rentalPrice}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="squareFootage" class="form-label">Square Footage</label>
+                                    <input type="text" class="form-control" id="squareFootage" th:field="*{squareFootage}" required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
@@ -92,6 +106,8 @@
                     </div>
                 </div>
             </div>
+
+
         </main>
     </div>
 </div>
