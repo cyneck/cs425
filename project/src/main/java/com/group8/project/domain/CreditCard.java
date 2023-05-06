@@ -12,6 +12,16 @@ public class CreditCard implements Serializable {
 
     private String bank;
 
+    public CreditCard() {
+    }
+
+    public CreditCard(String cardNo, Renter renter, Address address, String bank) {
+        this.cardNo = cardNo;
+        this.renter = renter;
+        this.address = address;
+        this.bank = bank;
+    }
+
     public String getCardNo() {
         return cardNo;
     }

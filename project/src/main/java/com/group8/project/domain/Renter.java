@@ -15,6 +15,26 @@ public class Renter implements Serializable {
     private String phone;
     private User user;
 
+    public Renter() {
+    }
+
+    public Renter(String email, int age, String sex, String job, String phone) {
+        this.email = email;
+        this.age = age;
+        this.sex = sex;
+        this.job = job;
+        this.phone = phone;
+    }
+
+    public Renter(String email, int age, String sex, String job, String phone, User user) {
+        this.email = email;
+        this.age = age;
+        this.sex = sex;
+        this.job = job;
+        this.phone = phone;
+        this.user = user;
+    }
+
     public String getEmail() {
         return email;
     }

@@ -10,6 +10,16 @@ public class RewardDetail implements Serializable {
     private int point;
     private LocalDate optDate;
 
+    public RewardDetail() {
+    }
+
+    public RewardDetail(String detailId, String operation, int point, LocalDate optDate) {
+        this.detailId = detailId;
+        this.operation = operation;
+        this.point = point;
+        this.optDate = optDate;
+    }
+
     public String getDetailId() {
         return detailId;
     }

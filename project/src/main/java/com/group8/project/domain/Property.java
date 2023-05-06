@@ -15,6 +15,9 @@ public class Property implements Serializable {
     private BigDecimal rentalPrice;
     private BigDecimal squareFootage;
 
+    public Property() {
+    }
+
     public Property(String propertyId, Agent agent, String propertyType, String description, String city, String state, String address, boolean availability, BigDecimal rentalPrice, BigDecimal squareFootage) {
         this.propertyId = propertyId;
         this.agent = agent;
