@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Property</title>
+    <title>Address</title>
     <!-- 引入Bootstrap的CSS文件 -->
     <link rel="stylesheet"
           href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
@@ -20,7 +20,7 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false" >
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://picsum.photos/id/237/32/32" alt="User Avatar"
                              class="rounded-circle me-2" th:text="${user.firstName}">
                     </a>
@@ -43,7 +43,7 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link"  href="dashboard">Profile</a>
+                        <a class="nav-link" href="dashboard">Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="address">Address</a>
@@ -52,10 +52,10 @@
                         <a class="nav-link" href="creditCard">Credit card</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Reference</a>
+                        <a class="nav-link" href="#">Preference</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Property</a>
+                        <a class="nav-link" href="search">Search for housing</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Neighborhood</a>
@@ -71,33 +71,49 @@
         </nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <h1 class="card-title text-center mb-4">User Profile</h1>
+                            <h1 class="card-title text-center mb-4">Search for housing</h1>
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="search" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                                    </div>
+                                </div>
+                            </div>
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
+                                    <th>id</th>
+                                    <th>email</th>
+                                    <th>type</th>
+                                    <th>description</th>
+                                    <th>city</th>
+                                    <th>state</th>
+                                    <th>address</th>
+                                    <th>availability</th>
+                                    <th>price</th>
+                                    <th>square</th>
+                                    <th>action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>John</td>
-                                    <td>john@example.com</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jane</td>
-                                    <td>jane@example.com</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Bob</td>
-                                    <td>bob@example.com</td>
+                                <tr th:each="item : ${propertyList}">
+                                    <td th:text="${item.propertyId}"></td>
+                                    <td th:text="${item.email}"></td>
+                                    <td th:text="${item.propertyType}"></td>
+                                    <td th:text="${item.description}"></td>
+                                    <td th:text="${item.city}"></td>
+                                    <td th:text="${item.state}"></td>
+                                    <td th:text="${item.address}"></td>
+                                    <td th:text="${item.availability}"></td>
+                                    <td th:text="${item.rentalPrice}"></td>
+                                    <td th:text="${item.squareFootage}"></td>
+                                    <td>
+                                        <a th:href="@{/renter/propertyForm?id={id}(id=${item.propertyId})}" class="btn btn-primary">view</a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
