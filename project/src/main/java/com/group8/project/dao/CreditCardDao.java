@@ -1,6 +1,7 @@
 package com.group8.project.dao;
 
 import com.group8.project.domain.CreditCard;
+import com.group8.project.domain.dto.CreditCardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -39,12 +40,12 @@ public class CreditCardDao {
 
     public void save(CreditCard creditCard) {
         String sql = "INSERT INTO CreditCard (card_no, email, address_id, bank) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, creditCard.getCardNo(), creditCard.getEmail(), creditCard.getAddressId(),creditCard.getBank());
+        jdbcTemplate.update(sql, creditCard.getCardNo(), creditCard.getEmail(), creditCard.getAddressId(), creditCard.getBank());
     }
 
     public void update(CreditCard creditCard) {
         String sql = "UPDATE CreditCard SET email = ?, address_id = ?, bank = ? WHERE card_no = ?";
-        jdbcTemplate.update(sql, creditCard.getEmail(), creditCard.getAddressId(),creditCard.getBank(),creditCard.getCardNo());
+        jdbcTemplate.update(sql, creditCard.getEmail(), creditCard.getAddressId(), creditCard.getBank(), creditCard.getCardNo());
     }
 
     public void deleteById(String cardNo) {
@@ -64,7 +65,8 @@ public class CreditCardDao {
             String email = rs.getString("email");
             String addressId = rs.getString("address_id");
             String bank = rs.getString("bank");
-            return new CreditCard(cardNo, email, addressId, bank);
+            CreditCard creditCard = new CreditCard(cardNo, email, addressId, bank);
+            return creditCard;
         }
     }
 }

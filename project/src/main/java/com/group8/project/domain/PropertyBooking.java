@@ -15,7 +15,7 @@ public class PropertyBooking implements Serializable {
     public PropertyBooking() {
     }
 
-    public PropertyBooking(String propertyId, LocalDate bookingDate, String status, Renter renter, CreditCard creditCard) {
+    public PropertyBooking(String propertyId, Date bookingDate, String status, Renter renter, CreditCard creditCard) {
         this.propertyId = propertyId;
         this.bookingDate = bookingDate;
         this.status = status;

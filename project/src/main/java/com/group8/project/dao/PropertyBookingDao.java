@@ -78,7 +78,7 @@ public class PropertyBookingDao {
             propertyBooking.setBookingDate(rs.getDate("booking_date"));
             propertyBooking.setStatus(rs.getString("status"));
             propertyBooking.setRenter(renterDao.findByEmail(rs.getString("email")));
-            propertyBooking.setCreditCard(creditCardDao.findByCardNumber(rs.getString("card_no")));
+            propertyBooking.setCreditCard(creditCardDao.findById(rs.getString("card_no")));
 
             return propertyBooking;
         }
