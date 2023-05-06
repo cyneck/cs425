@@ -75,8 +75,8 @@ public class PropertyController {
         return "portal/agent/propertyForm";
     }
 
-    @GetMapping("/deleteProperty")
-    public String deleteProperty(String addressId, HttpSession session, Model model) {
+    @GetMapping("/deletePropertyForm")
+    public String deleteProperty(String id, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         // Check if user is authenticated
         if (user == null) {
@@ -84,8 +84,8 @@ public class PropertyController {
             return "redirect:/login?error";
         }
         Property entity = new Property();
-        if (StringUtils.isNotBlank(addressId)) {
-            propertyService.deleteById(addressId);
+        if (StringUtils.isNotBlank(id)) {
+            propertyService.deleteById(id);
         }
         List<Property> propertyList = propertyService.findByEmail(user.getEmail());
         model.addAttribute("user", user);
