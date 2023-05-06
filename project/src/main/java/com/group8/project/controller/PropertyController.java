@@ -69,6 +69,7 @@ public class PropertyController {
         }
         model.addAttribute("property", entity);
         model.addAttribute("propertyTypeList", PropertyTypeEnum.values());
+        model.addAttribute("propertyType", entity.getPropertyType());
         model.addAttribute("user", user);
         // User is authenticated, show dashboard
         return "portal/agent/propertyForm";

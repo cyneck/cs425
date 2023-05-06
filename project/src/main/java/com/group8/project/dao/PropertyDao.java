@@ -30,7 +30,7 @@ public class PropertyDao {
     }
 
     public Property findById(String id) {
-        String sql = "SELECT property_id, email, property_type, description, city, state, address, availability, rental_price, square_footage FROM property where email=?";
+        String sql = "SELECT property_id, email, property_type, description, city, state, address, availability, rental_price, square_footage FROM property where property_id=?";
         List<Property> propertyList = jdbcTemplate.query(sql, new PropertyRowMapper(), id);
         return propertyList.isEmpty() ? null : propertyList.get(0);
     }

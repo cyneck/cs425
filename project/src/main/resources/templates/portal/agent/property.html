@@ -89,8 +89,8 @@
                                     <td th:text="${item.rentalPrice}"></td>
                                     <td th:text="${item.squareFootage}"></td>
                                     <td>
-                                        <a th:href="@{/renter/propertyForm?id={id}(id=${item.propertyId})}" class="btn btn-primary">view</a>
-                                        <a th:href="@{/renter/deletePropertyForm?id={id}(id=${item.propertyId})}" class="btn btn-danger">delete</a>
+                                        <a th:href="@{/agent/propertyForm?id={id}(id=${item.propertyId})}" class="btn btn-primary">view</a>
+                                        <a th:href="@{/agent/deletePropertyForm?id={id}(id=${item.propertyId})}" class="btn btn-danger">delete</a>
                                     </td>
                                 </tr>
                                 </tbody>
