@@ -14,6 +14,21 @@ public class Agent implements Serializable {
     public Agent() {
     }
 
+    public Agent(String email, String estateAgency, String jobTitle, String phone) {
+        this.email = email;
+        this.estateAgency = estateAgency;
+        this.jobTitle = jobTitle;
+        this.phone = phone;
+    }
+
+    public Agent(String email, String estateAgency, String jobTitle, String phone, User user) {
+        this.email = email;
+        this.estateAgency = estateAgency;
+        this.jobTitle = jobTitle;
+        this.phone = phone;
+        this.user = user;
+    }
+
     // Getter and Setter methods
     @Column("email")
     public String getEmail() {
@@ -57,5 +72,16 @@ public class Agent implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Agent{" +
+                "email='" + email + '\'' +
+                ", estateAgency='" + estateAgency + '\'' +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", phone='" + phone + '\'' +
+                ", user=" + user +
+                '}';
     }
 }

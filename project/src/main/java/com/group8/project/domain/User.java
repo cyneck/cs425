@@ -17,6 +17,33 @@ public class User implements Serializable {
 
     private String role;
 
+    public User() {
+    }
+
+    public User(String email, String firstName, String lastName, String passwd) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.passwd = passwd;
+    }
+
+    public User(String email, String firstName, String lastName, String passwd, String role) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.passwd = passwd;
+        this.role = role;
+    }
+
+    public User(String email, String firstName, String lastName, String passwd, String role, List<Address> addresses) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.passwd = passwd;
+        this.role = role;
+        this.addresses = addresses;
+    }
+
     private List<Address> addresses;
 
     public String getEmail() {

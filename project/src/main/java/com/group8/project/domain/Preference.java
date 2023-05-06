@@ -1,18 +1,18 @@
 package com.group8.project.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 
 public class Preference implements Serializable {
     private String email;
     private Date desiredDate;
     private String preferredLocation;
-    private double budget;
+    private BigDecimal budget;
 
     public Preference() {}
 
-    public Preference(String email, Date desiredDate, String preferredLocation, double budget) {
+    public Preference(String email, Date desiredDate, String preferredLocation, BigDecimal budget) {
         this.email = email;
         this.desiredDate = desiredDate;
         this.preferredLocation = preferredLocation;
@@ -43,11 +43,11 @@ public class Preference implements Serializable {
         this.preferredLocation = preferredLocation;
     }
 
-    public double getBudget() {
+    public BigDecimal getBudget() {
         return budget;
     }
 
-    public void setBudget(double budget) {
+    public void setBudget(BigDecimal budget) {
         this.budget = budget;
     }
 
