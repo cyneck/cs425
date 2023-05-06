@@ -1,7 +1,5 @@
 package com.group8.project.controller;
 
-import com.group8.project.dao.RenterDao;
-import com.group8.project.dao.UserDao;
 import com.group8.project.domain.Agent;
 import com.group8.project.domain.Renter;
 import com.group8.project.domain.User;
@@ -15,8 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,9 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -45,12 +38,26 @@ public class LoginController {
     @Autowired
     private AgentService agentService;
 
+    /* --- Page Router --- */
     @GetMapping("login")
-    public String showLoginForm(Model model) {
+    public String loginFormPage(Model model) {
         model.addAttribute("user", new User());
         return "portal/login";
     }
 
+    @GetMapping("signUpAgent")
+    public String signUpAgentPage(Model model) {
+        model.addAttribute("user", new User());
+        return "portal/signUpAgent";
+    }
+
+    @GetMapping("signUpRenter")
+    public String signUpRenterPage(Model model) {
+        model.addAttribute("user", new User());
+        return "portal/signUpRenter";
+    }
+
+    /* --- Business Router --- */
     @PostMapping("login")
     public String processLoginForm(@Valid @ModelAttribute("user") User user, Model model,
                                    BindingResult bindingResult,
@@ -73,7 +80,9 @@ public class LoginController {
                 }
                 agent.setUser(inUser);
                 session.setAttribute("user", inUser);
+                session.setAttribute("agent", agent);
                 attributes.addFlashAttribute("user", inUser);
+                attributes.addFlashAttribute("agent", agent);
                 return "redirect:/agent/dashboard";
             } else {
                 Renter renter = renterService.getByEmail(inUser.getEmail());
@@ -85,7 +94,9 @@ public class LoginController {
                 }
                 renter.setUser(inUser);
                 session.setAttribute("user", inUser);
+                session.setAttribute("renter", renter);
                 attributes.addFlashAttribute("user", inUser);
+                attributes.addFlashAttribute("renter", renter);
                 return "redirect:/renter/dashboard";
             }
 
@@ -95,12 +106,6 @@ public class LoginController {
             bindingResult.rejectValue("email", "error.user", "Invalid email or password.");
             return "portal/login";
         }
-    }
-
-    @GetMapping("signUpAgent")
-    public String signUpAgentPage(Model model) {
-        model.addAttribute("user", new User());
-        return "portal/signUpAgent";
     }
 
     @PostMapping("signUpAgent")
@@ -119,6 +124,7 @@ public class LoginController {
                 user.setFirstName(agentDto.getFirstName());
                 user.setLastName(agentDto.getLastName());
                 user.setPassword(agentDto.getPassword());
+                user.setRole("agent");
 
                 Agent newAgent = new Agent();
                 newAgent.setUser(user);
@@ -126,21 +132,18 @@ public class LoginController {
                 newAgent.setPhone(agentDto.getPhone());
                 newAgent.setEstateAgency(agentDto.getEstateAgency());
                 newAgent.setJobTitle(agentDto.getJobTitle());
+
                 agentService.save(newAgent);
+
                 HttpSession session = request.getSession();
-                session.setAttribute("user", newAgent);
-                attributes.addFlashAttribute("user", newAgent);
+                session.setAttribute("user", user);
+                session.setAttribute("agent", newAgent);
+                attributes.addFlashAttribute("user", user);
+                attributes.addFlashAttribute("agent", newAgent);
                 return "redirect:/agent/dashboard";
             }
         }
         return "portal/signUpAgent";
-    }
-
-
-    @GetMapping("signUpRenter")
-    public String signUpRenterPage(Model model) {
-        model.addAttribute("user", new User());
-        return "portal/signUpRenter";
     }
 
     @PostMapping("signUpRenter")
@@ -155,22 +158,28 @@ public class LoginController {
                 bindingResult.rejectValue("email", "error.user", "renter already exists!");
                 return "portal/signUpRenter";
             } else {
-                Renter newRenter = new Renter();
                 User user = new User();
                 user.setEmail(renter.getEmail());
                 user.setFirstName(renter.getFirstName());
                 user.setLastName(renter.getLastName());
                 user.setPassword(renter.getPassword());
+                user.setRole("renter");
+
+                Renter newRenter = new Renter();
                 newRenter.setUser(user);
                 newRenter.setAge(renter.getAge());
                 newRenter.setJob(renter.getJob());
                 newRenter.setPhone(renter.getPhone());
                 newRenter.setSex(renter.getSex());
                 newRenter.setEmail(renter.getEmail());
+
                 renterService.save(newRenter);
+
                 HttpSession session = request.getSession();
-                session.setAttribute("user", newRenter);
-                attributes.addFlashAttribute("user", newRenter);
+                session.setAttribute("user", user);
+                session.setAttribute("renter", newRenter);
+                attributes.addFlashAttribute("user", user);
+                attributes.addFlashAttribute("renter", newRenter);
                 return "redirect:/renter/dashboard";
             }
         }
@@ -180,14 +189,11 @@ public class LoginController {
 
     @GetMapping("logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // 清除 session 中用户信息
+        // clear user in session
         request.getSession().removeAttribute("user");
-
-        // 重定向到登录页面
+        // redirect to login
         response.sendRedirect("/login");
-        // 销毁 session
+        // invalidate session
         request.getSession().invalidate();
-
     }
-
 }

@@ -14,7 +14,6 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String passwd;
-
     private String role;
 
     public User() {
@@ -98,9 +97,10 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "email='" + email + '\'' +
-                ", firstname='" + firstName + '\'' +
-                ", lastname='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", passwd='" + passwd + '\'' +
+                ", role='" + role + '\'' +
                 ", addresses=" + addresses +
                 '}';
     }
