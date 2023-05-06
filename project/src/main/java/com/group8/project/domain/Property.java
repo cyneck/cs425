@@ -11,14 +11,14 @@ public class Property implements Serializable {
     private String city;
     private String state;
     private String address;
-    private boolean availability;
+    private Integer availability;
     private BigDecimal rentalPrice;
     private BigDecimal squareFootage;
 
     public Property() {
     }
 
-    public Property(String propertyId, Agent agent, String propertyType, String description, String city, String state, String address, boolean availability, BigDecimal rentalPrice, BigDecimal squareFootage) {
+    public Property(String propertyId, Agent agent, String propertyType, String description, String city, String state, String address, Integer availability, BigDecimal rentalPrice, BigDecimal squareFootage) {
         this.propertyId = propertyId;
         this.agent = agent;
         this.propertyType = propertyType;
@@ -87,11 +87,11 @@ public class Property implements Serializable {
         this.address = address;
     }
 
-    public boolean isAvailability() {
+    public Integer getAvailability() {
         return availability;
     }
 
-    public void setAvailability(boolean availability) {
+    public void setAvailability(Integer availability) {
         this.availability = availability;
     }
 
