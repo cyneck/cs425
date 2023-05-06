@@ -77,23 +77,19 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-body">
-                            <h1 class="card-title text-center mb-4">User Form</h1>
-                            <form action="/renter/updateUser" th:object="${user}">
+                            <h1 class="card-title text-center mb-4">User address</h1>
+                            <form action="/renter/updatePreference" method="post" th:object="${preference}">
                                 <div class="mb-3">
-                                    <label for="firstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
+                                    <label for="desiredDate" class="form-label">Desired Date</label>
+                                    <input type="date" class="form-control" id="desiredDate" th:field="*{desiredDate}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="lastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
+                                    <label for="preferredLocation" class="form-label">Preferred Location</label>
+                                    <input type="text" class="form-control"  id="preferredLocation" th:field="*{preferredLocation}" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control"  id="email" th:field="*{email}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" th:field="*{password}" required>
+                                    <label for="budget" class="form-label">Budget</label>
+                                    <input type="number" class="form-control" id="budget" th:field="*{budget}" required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>

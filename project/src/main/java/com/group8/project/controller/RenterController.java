@@ -1,10 +1,7 @@
 package com.group8.project.controller;
 
-import com.group8.project.domain.Address;
-import com.group8.project.domain.CreditCard;
-import com.group8.project.domain.Renter;
+import com.group8.project.domain.*;
 import com.group8.project.domain.dto.CreditCardDto;
-import com.group8.project.domain.User;
 import com.group8.project.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +34,9 @@ public class RenterController {
     @Autowired
     private CreditCardService creditCardService;
 
+    @Autowired
+    private PreferenceService preferenceService;
+
 
     @RequestMapping("/updateUser")
     public String update(User user, HttpSession session, Model model) {
@@ -66,6 +66,43 @@ public class RenterController {
         model.addAttribute("addressList", addressList);
         // User is authenticated, show dashboard
         return "portal/renter/address";
+    }
+
+    @RequestMapping("/preference")
+    public String preference(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        // Check if user is authenticated
+        if (user == null) {
+            // User is not authenticated, redirect to login page
+            return "redirect:/login?error";
+        }
+        Preference preference = preferenceService.findByEmail(user.getEmail());
+        if (null == preference) {
+            preference = new Preference();
+            preference.setEmail(user.getEmail());
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("preference", preference);
+        // User is authenticated, show dashboard
+        return "portal/renter/preference";
+    }
+    @RequestMapping("/updatePreference")
+    public String updatePreference(Preference preference, HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        // Check if user is authenticated
+        if (user == null) {
+            // User is not authenticated, redirect to login page
+            return "redirect:/login?error";
+        }
+        if (null != preference) {
+            preference.setEmail(user.getEmail());
+            preferenceService.saveOrUpdate(preference);
+        }
+        preference = preferenceService.findByEmail(user.getEmail());
+        model.addAttribute("user", user);
+        model.addAttribute("preference", preference);
+        // User is authenticated, show dashboard
+        return "portal/renter/preference";
     }
 
     @RequestMapping("/addressForm")

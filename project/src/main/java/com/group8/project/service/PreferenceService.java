@@ -32,6 +32,13 @@ public class PreferenceService {
         preferenceDao.update(preference);
     }
 
+    public void saveOrUpdate(Preference preference) {
+        if (null == findByEmail(preference.getEmail())) {
+            preferenceDao.save(preference);
+        }
+        preferenceDao.update(preference);
+    }
+
     public void delete(String email) {
         preferenceDao.delete(email);
     }
