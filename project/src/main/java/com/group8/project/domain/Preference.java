@@ -1,11 +1,14 @@
 package com.group8.project.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class Preference implements Serializable {
     private String email;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date desiredDate;
     private String preferredLocation;
     private BigDecimal budget;
